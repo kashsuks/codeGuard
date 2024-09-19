@@ -1,23 +1,39 @@
 import React, { useState } from "react";
-import axios from "axios";
+
+// Sample code snippets for plagiarism check (can be more extensive)
+const sampleCodeSnippets = [
+  {
+    name: "Sample Code 1",
+    code: `def hello_world():\n  print("Hello, world!")`
+  },
+  {
+    name: "Sample Code 2",
+    code: `def sum(a, b):\n  return a + b`
+  }
+];
+
+// Function to check plagiarism by comparing student code with sample snippets
+const checkPlagiarism = (studentCode) => {
+  const results = sampleCodeSnippets.map((sample) => {
+    // Simple similarity check using string matching (can be improved)
+    const similarity = studentCode.includes(sample.code) ? 1 : 0;
+    return {
+      compared_with: sample.name,
+      similarity
+    };
+  });
+  return results;
+};
 
 function App() {
   const [studentName, setStudentName] = useState("");
   const [code, setCode] = useState("");
   const [results, setResults] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:5000/submit_code", {
-        student_name: studentName,
-        code: code,
-      });
-      setResults(response.data.plagiarism_results);
-    } catch (error) {
-      console.error("There was an error submitting the code!", error);
-    }
+    const plagiarismResults = checkPlagiarism(code);
+    setResults(plagiarismResults);
   };
 
   return (
