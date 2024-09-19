@@ -37,39 +37,43 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>CodeGuard - Plagiarism Detection Prototype</h1>
-      <form onSubmit={handleSubmit}>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+      <h1 style={{ textAlign: "center" }}>CodeGuard - Plagiarism Detection Prototype</h1>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
         <div>
-          <label>Student Name:</label>
+          <label htmlFor="studentName">Student Name:</label>
           <input
+            id="studentName"
             type="text"
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
             required
+            style={{ width: "100%", padding: "5px" }}
           />
         </div>
         <div>
-          <label>Code:</label>
+          <label htmlFor="codeInput">Code:</label>
           <textarea
+            id="codeInput"
             value={code}
             onChange={(e) => setCode(e.target.value)}
             required
             rows="10"
-            cols="50"
+            style={{ width: "100%", padding: "5px" }}
           />
         </div>
-        <button type="submit">Submit Code</button>
+        <button type="submit" style={{ padding: "10px", backgroundColor: "#4CAF50", color: "white", border: "none", cursor: "pointer" }}>
+          Submit Code
+        </button>
       </form>
-
       {results && (
         <div style={{ marginTop: "20px" }}>
           <h2>Plagiarism Results:</h2>
-          <ul>
+          <ul style={{ listStyleType: "none", padding: 0 }}>
             {results.map((result, index) => (
-              <li key={index}>
+              <li key={index} style={{ marginBottom: "10px", padding: "10px", backgroundColor: "#f0f0f0", borderRadius: "5px" }}>
                 Compared with {result.compared_with}: Similarity{" "}
-                {(result.similarity * 100).toFixed(2)}%
+                <strong>{(result.similarity * 100).toFixed(2)}%</strong>
               </li>
             ))}
           </ul>
