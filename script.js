@@ -24,12 +24,13 @@ function checkPlagiarism(name, code) {
     resultsDiv.innerHTML = '';
 
     const resultList = [];
+    const codeLengths = [];
 
     for (let [submittedName, submittedCode] of Object.entries(submissions)) {
         if (submittedName !== name) {
-            const isPlagiarized = code === submittedCode;
-            if (isPlagiarized) {
-                resultList.push(`<div class="result">Plagiarism detected with name: ${submittedName}</div>`);
+            const matchPercentage = calculateMatchPercentage(code, submittedCode);
+            if (matchPercentage > 0) {
+                resultList.push(`<div class="result">Plagiarism detected with name: ${submittedName}. Match: ${matchPercentage.toFixed(2)}%</div>`);
             }
         }
     }
@@ -41,13 +42,13 @@ function checkPlagiarism(name, code) {
     }
 }
 
-function fadeOutAndScroll() {
-    const intro = document.querySelector('.intro');
-    const mainContent = document.getElementById('main-content');
-    
-    intro.style.opacity = '0'; // Fade out the intro section
-    setTimeout(() => {
-        mainContent.classList.add('show'); // Fade in the main content
-        mainContent.scrollIntoView({ behavior: 'smooth' }); // Smoothly scroll to the main content
-    }, 1000); // Match this duration with the fade-out duration
+function calculateMatchPercentage(code1, code2) {
+    if (!code1 || !code2) return 0;
+
+    const code1Words = code1.split(/\s+/).length;
+    const code2Words = code2.split(/\s+/).length;
+    const commonWords = code1.split(/\s+/).filter(word => code2.includes(word)).length;
+
+    // Simple percentage calculation based on word occurrence
+    return (commonWords / Math.max(code1Words, code2Words)) * 100;
 }
