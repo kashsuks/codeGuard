@@ -40,3 +40,14 @@ function checkPlagiarism(name, code) {
         resultsDiv.innerHTML = '<div class="result">No plagiarism detected.</div>';
     }
 }
+
+function fadeOutAndScroll() {
+    const intro = document.querySelector('.intro');
+    const mainContent = document.getElementById('main-content');
+    
+    intro.style.opacity = '0'; // Fade out the intro section
+    setTimeout(() => {
+        mainContent.classList.add('show'); // Fade in the main content
+        mainContent.scrollIntoView({ behavior: 'smooth' }); // Smoothly scroll to the main content
+    }, 1000); // Match this duration with the fade-out duration
+}
