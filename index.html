@@ -16,11 +16,17 @@
         <h3>Code Plagiarism Checker</h3>
         <div id="error-message" style="color: red;"></div>
         <input type="text" id="name" placeholder="Enter your name">
-        <textarea id="code" rows="6" placeholder="Enter your code"></textarea>
+        <textarea id="code" rows="10" placeholder="Enter your code"></textarea>
         <button onclick="submitCode()">Submit</button>
     </div>
     
     <div id="results" class="results"></div>
+    <div id="comparison" class="comparison">
+        <div class="code-container">
+            <div id="original-code" class="code-box"></div>
+            <div id="changed-code" class="code-box"></div>
+        </div>
+    </div>
 </div>
 
 <footer class="footer">
