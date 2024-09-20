@@ -3,7 +3,7 @@
 ![CodeGuard Logo](images/codeguard-logo.svg)
 
 [![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/kashyapsukshavasi/CodeGuard)
-[![License](https://img.shields.io/github/license/kashyapsukshavasi/CodeGuard)](LICENSE)
+[![License](https://img.shields.io/github/license/kashyapsukshavasi/CodeGuard)](https://github.com/kashyapsukshavasi/CodeGuard/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/kashyapsukshavasi/CodeGuard)](https://github.com/kashyapsukshavasi/CodeGuard/issues)
 [![Contributors](https://img.shields.io/github/contributors/kashyapsukshavasi/CodeGuard)](https://github.com/kashyapsukshavasi/CodeGuard/graphs/contributors)
 
