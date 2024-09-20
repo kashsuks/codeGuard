@@ -57,12 +57,18 @@
                             <h3 id="current-assignment">Current Assignment: None</h3>
                             <div id="error-message"></div>
                             <input type="text" id="name" placeholder="Enter your name">
-                            <textarea id="code" rows="6" placeholder="Enter your code"></textarea>
+                            <textarea id="code" rows="10" placeholder="Enter your code"></textarea>
                             <button onclick="submitCode()">Submit</button>
                             <div class="loader" id="loader"></div>
                         </div>
                         
                         <div id="results" class="results"></div>
+    <div id="comparison" class="comparison">
+        <div class="code-container">
+            <div id="original-code" class="code-box"></div>
+            <div id="changed-code" class="code-box"></div>
+        </div>
+    </div>
                     </div>
                 </div>
 

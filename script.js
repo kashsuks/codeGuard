@@ -1,26 +1,7 @@
-let currentAssignment = null;
 let assignments = JSON.parse(localStorage.getItem('assignments')) || {};
+let currentAssignment = null;
 let assignmentToDelete = null;
-
-// Sidebar navigation
-document.querySelectorAll('.sidebar nav a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.querySelector(this.getAttribute('href')).classList.add('active');
-        document.querySelectorAll('.sidebar nav a').forEach(navLink => navLink.classList.remove('active'));
-        this.classList.add('active');
-    });
-});
-
-// Theme toggle
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
-});
+let loader = document.getElementById('loader');
 
 // Font size adjustment
 const fontSizeSlider = document.getElementById('font-size-slider');
@@ -49,7 +30,7 @@ clearMemoryBtn.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
-        body.classList.add('dark-theme');
+        document.body.classList.add('dark-theme');
     }
 
     const savedFontSize = localStorage.getItem('fontSize');
@@ -144,27 +125,21 @@ function loadAssignment(assignmentName) {
 }
 
 function submitCode() {
-    if (!currentAssignment) {
-        alert("Please select or create an assignment first.");
-        return;
-    }
-
     const name = document.getElementById('name').value.trim();
     const code = document.getElementById('code').value.trim();
     const resultsDiv = document.getElementById('results');
     const errorMessageDiv = document.getElementById('error-message');
-    const loader = document.getElementById('loader');
 
     errorMessageDiv.innerHTML = '';
     resultsDiv.innerHTML = '';
 
     if (!name || !code) {
-        errorMessageDiv.innerHTML = 'Please fill in both fields.';
+        errorMessageDiv.textContent = "Please enter your name and code.";
         return;
     }
 
     if (assignments[currentAssignment][name]) {
-        errorMessageDiv.innerHTML = 'This name has already been used in this assignment. Please use a different name.';
+        errorMessageDiv.textContent = 'This name has already been used. Please use a different name.';
         return;
     }
 
@@ -176,8 +151,8 @@ function submitCode() {
 
         document.getElementById('name').value = '';
         document.getElementById('code').value = '';
-
         checkPlagiarism(name, code);
+
         loader.style.display = 'none';
     }, 1000);
 }
@@ -205,28 +180,6 @@ function checkPlagiarism(name, code) {
     }
 
     resultsDiv.innerHTML = resultList.join('');
-}
-
-function calculateLCSPercentage(code1, code2) {
-    const lcsLength = longestCommonSubsequenceLength(code1, code2);
-    const maxLength = Math.max(code1.length, code2.length);
-    return (lcsLength / maxLength) * 100;
-}
-
-function longestCommonSubsequenceLength(a, b) {
-    const dp = Array(a.length + 1).fill().map(() => Array(b.length + 1).fill(0));
-
-    for (let i = 1; i <= a.length; i++) {
-        for (let j = 1; j <= b.length; j++) {
-            if (a[i - 1] === b[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-            }
-        }
-    }
-
-    return dp[a.length][b.length];
 }
 
 function adjustMainContentHeight() {
