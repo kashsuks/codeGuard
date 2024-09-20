@@ -3,54 +3,15 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    scroll-behavior: smooth; /* Smooth scrolling for the whole page */
-}
-
-.intro {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 100px 20px; /* Increased padding for spacious look */
-    position: relative;
-}
-
-.intro-content {
-    max-width: 800px;
-    margin: auto;
-}
-
-.intro h1 {
-    margin: 0;
-    font-size: 3em;
-}
-
-.intro p {
-    font-size: 1.5em;
-    margin: 20px 0 40px; /* Add space below the paragraph */
-}
-
-.intro-links {
-    margin: 20px 0;
-}
-
-.intro-links a {
-    color: #ffffff;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 1.1em;
-    transition: color 0.3s;
-}
-
-.intro-links a:hover {
-    color: #d1d1d1;
+    scroll-behavior: smooth;
 }
 
 .container {
-    max-width: 600px;
-    margin: 40px auto; /* Added margin-top to create space between sections */
+    max-width: 800px;
+    margin: 40px auto;
     background: white;
     padding: 20px;
-    padding-bottom: 80px; /* Added padding-bottom to prevent overlap with footer */
+    padding-bottom: 80px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
@@ -84,6 +45,7 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 10px;
+    background-color: #f9f9f9;
 }
 
 .footer {
@@ -94,5 +56,5 @@ button:hover {
     position: fixed;
     bottom: 0;
     width: 100%;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1); /* Shadow to separate footer from content */
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
