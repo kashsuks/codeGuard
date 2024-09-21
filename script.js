@@ -14,15 +14,27 @@ function updateAssignmentList() {
     }
 }
 
+function showCreateAssignmentForm() {
+    document.getElementById('create-assignment-form').style.display = 'block';
+}
+
+function hideCreateAssignmentForm() {
+    document.getElementById('create-assignment-form').style.display = 'none';
+    document.getElementById('new-assignment-name').value = '';
+}
+
 function createAssignment() {
-    const assignmentName = prompt("Enter the name for the new assignment:");
+    const assignmentName = document.getElementById('new-assignment-name').value.trim();
     if (assignmentName && !assignments[assignmentName]) {
         assignments[assignmentName] = {};
         localStorage.setItem('assignments', JSON.stringify(assignments));
         updateAssignmentList();
         loadAssignment(assignmentName);
+        hideCreateAssignmentForm();
     } else if (assignments[assignmentName]) {
         alert("An assignment with this name already exists.");
+    } else {
+        alert("Please enter a valid assignment name.");
     }
 }
 
@@ -118,6 +130,11 @@ function longestCommonSubsequenceLength(a, b) {
 
     return dp[a.length][b.length];
 }
+
+// Event Listeners
+document.getElementById('create-assignment-btn').addEventListener('click', showCreateAssignmentForm);
+document.getElementById('submit-new-assignment').addEventListener('click', createAssignment);
+document.getElementById('cancel-new-assignment').addEventListener('click', hideCreateAssignmentForm);
 
 // Initialize the assignment list when the page loads
 updateAssignmentList();

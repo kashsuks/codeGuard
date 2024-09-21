@@ -16,7 +16,16 @@
             <!-- Assignment list will be populated here -->
         </div>
         
-        <button onclick="createAssignment()">Create New Assignment</button>
+        <button id="create-assignment-btn">Create New Assignment</button>
+        
+        <div id="create-assignment-form" class="modal">
+            <div class="modal-content">
+                <h3>Create New Assignment</h3>
+                <input type="text" id="new-assignment-name" placeholder="Enter assignment name">
+                <button id="submit-new-assignment">Create</button>
+                <button id="cancel-new-assignment">Cancel</button>
+            </div>
+        </div>
         
         <div id="checker-form" class="checker-form" style="display: none;">
             <h3 id="current-assignment">Current Assignment: None</h3>
