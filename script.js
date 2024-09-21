@@ -1,43 +1,83 @@
-const submissions = {};
+let currentAssignment = null;
+let assignments = JSON.parse(localStorage.getItem('assignments')) || {};
 
-// Handle form submission
+function updateAssignmentList() {
+    const assignmentList = document.getElementById('assignment-list');
+    assignmentList.innerHTML = '<h3>Your Assignments</h3>';
+    
+    for (let assignmentName in assignments) {
+        const assignmentItem = document.createElement('div');
+        assignmentItem.className = 'assignment-item';
+        assignmentItem.textContent = assignmentName;
+        assignmentItem.onclick = () => loadAssignment(assignmentName);
+        assignmentList.appendChild(assignmentItem);
+    }
+}
+
+function createAssignment() {
+    const assignmentName = prompt("Enter the name for the new assignment:");
+    if (assignmentName && !assignments[assignmentName]) {
+        assignments[assignmentName] = {};
+        localStorage.setItem('assignments', JSON.stringify(assignments));
+        updateAssignmentList();
+        loadAssignment(assignmentName);
+    } else if (assignments[assignmentName]) {
+        alert("An assignment with this name already exists.");
+    }
+}
+
+function loadAssignment(assignmentName) {
+    currentAssignment = assignmentName;
+    document.getElementById('current-assignment').textContent = `Current Assignment: ${assignmentName}`;
+    document.getElementById('checker-form').style.display = 'block';
+    document.getElementById('results').innerHTML = '';
+}
+
 function submitCode() {
+    if (!currentAssignment) {
+        alert("Please select or create an assignment first.");
+        return;
+    }
+
     const name = document.getElementById('name').value.trim();
     const code = document.getElementById('code').value.trim();
     const resultsDiv = document.getElementById('results');
     const errorMessageDiv = document.getElementById('error-message');
+    const loader = document.getElementById('loader');
 
-    errorMessageDiv.innerHTML = ''; // Clear previous errors
-    resultsDiv.innerHTML = ''; // Clear previous results
+    errorMessageDiv.innerHTML = '';
+    resultsDiv.innerHTML = '';
 
-    // Validate inputs
     if (!name || !code) {
         errorMessageDiv.innerHTML = 'Please fill in both fields.';
         return;
     }
 
-    if (submissions[name]) {
-        errorMessageDiv.innerHTML = 'This name has already been used. Please use a different name.';
+    if (assignments[currentAssignment][name]) {
+        errorMessageDiv.innerHTML = 'This name has already been used in this assignment. Please use a different name.';
         return;
     }
 
-    // Store the code submission
-    submissions[name] = code;
+    loader.style.display = 'block';
 
-    // Clear the form after submission
-    document.getElementById('name').value = '';
-    document.getElementById('code').value = '';
+    setTimeout(() => {
+        assignments[currentAssignment][name] = code;
+        localStorage.setItem('assignments', JSON.stringify(assignments));
 
-    checkPlagiarism(name, code);
+        document.getElementById('name').value = '';
+        document.getElementById('code').value = '';
+
+        checkPlagiarism(name, code);
+        loader.style.display = 'none';
+    }, 1000);
 }
 
-// Check for plagiarism
 function checkPlagiarism(name, code) {
     const resultsDiv = document.getElementById('results');
     const resultList = [];
     const matchPercentages = [];
 
-    for (let [submittedName, submittedCode] of Object.entries(submissions)) {
+    for (let [submittedName, submittedCode] of Object.entries(assignments[currentAssignment])) {
         if (submittedName !== name) {
             const matchPercentage = calculateLCSPercentage(code, submittedCode);
             if (matchPercentage > 0) {
@@ -57,14 +97,12 @@ function checkPlagiarism(name, code) {
     resultsDiv.innerHTML = resultList.join('');
 }
 
-// Calculate LCS (Longest Common Subsequence) similarity percentage
 function calculateLCSPercentage(code1, code2) {
     const lcsLength = longestCommonSubsequenceLength(code1, code2);
     const maxLength = Math.max(code1.length, code2.length);
-    return (lcsLength / maxLength) * 100; // Percentage of similarity
+    return (lcsLength / maxLength) * 100;
 }
 
-// Helper function to calculate LCS length
 function longestCommonSubsequenceLength(a, b) {
     const dp = Array(a.length + 1).fill().map(() => Array(b.length + 1).fill(0));
 
@@ -80,3 +118,6 @@ function longestCommonSubsequenceLength(a, b) {
 
     return dp[a.length][b.length];
 }
+
+// Initialize the assignment list when the page loads
+updateAssignmentList();
