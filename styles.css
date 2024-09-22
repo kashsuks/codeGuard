@@ -33,6 +33,7 @@ delete-btn {
     border-radius: 4px;
     cursor: pointer;
     display: none;
+}
 
 button {
     background-color: #007bff;
