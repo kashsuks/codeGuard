@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "pouchdb-adapter-idb": "^9.0.0",
-    "rxdb": "^15.33.0"
-  }
-}
