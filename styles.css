@@ -1,19 +1,83 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    scroll-behavior: smooth;
+    min-height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-header h2 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+    background-color: #34495e;
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+}
+
+.main-content-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 .container {
     max-width: 800px;
-    margin: 40px auto;
+    margin: 0 auto;
     background: white;
     padding: 20px;
-    padding-bottom: 80px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
 }
 
 input, textarea, button {
@@ -37,6 +101,15 @@ button:hover {
     background-color: #0056b3;
 }
 
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
 .results {
     margin-top: 20px;
 }
@@ -47,17 +120,6 @@ button:hover {
     border-radius: 4px;
     margin-bottom: 10px;
     background-color: #f9f9f9;
-}
-
-.footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #007bff;
-    color: white;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
 
 #error-message {
@@ -101,8 +163,6 @@ button:hover {
 }
 
 .delete-btn {
-    max-width: 5cm;
-    max-height: 5cm;
     background-color: #dc3545;
     color: white;
     border: none;
@@ -157,4 +217,65 @@ button:hover {
 
 #confirm-delete:hover {
     background-color: #c82333;
+}
+
+#theme-toggle, #clear-memory {
+    margin-top: 10px;
+}
+
+#font-size-slider {
+    width: 200px;
+    margin-right: 10px;
+}
+
+.danger {
+    background-color: #dc3545;
+}
+
+.danger:hover {
+    background-color: #c82333;
+}
+
+/* Dark theme styles */
+body.dark-theme {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+body.dark-theme .container {
+    background-color: #34495e;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+body.dark-theme .sidebar {
+    background-color: #2c3e50;
+}
+
+body.dark-theme .sidebar nav ul li a:hover,
+body.dark-theme .sidebar nav ul li a.active {
+    background-color: #34495e;
+}
+
+body.dark-theme input, 
+body.dark-theme textarea {
+    background-color: #465a6e;
+    color: #ecf0f1;
+    border-color: #576574;
+}
+
+body.dark-theme .assignment-item {
+    background-color: #465a6e;
+}
+
+body.dark-theme .assignment-item:hover {
+    background-color: #576574;
+}
+
+body.dark-theme .result {
+    background-color: #465a6e;
+    border-color: #576574;
+}
+
+body.dark-theme .footer {
+    background-color: #2c3e50;
 }

@@ -2,6 +2,66 @@ let currentAssignment = null;
 let assignments = JSON.parse(localStorage.getItem('assignments')) || {};
 let assignmentToDelete = null;
 
+// Sidebar navigation
+document.querySelectorAll('.sidebar nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.querySelector(this.getAttribute('href')).classList.add('active');
+        document.querySelectorAll('.sidebar nav a').forEach(navLink => navLink.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+// Theme toggle
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+});
+
+// Font size adjustment
+const fontSizeSlider = document.getElementById('font-size-slider');
+const fontSizeValue = document.getElementById('font-size-value');
+
+fontSizeSlider.addEventListener('input', () => {
+    const fontSize = fontSizeSlider.value;
+    document.documentElement.style.fontSize = `${fontSize}px`;
+    fontSizeValue.textContent = `${fontSize}px`;
+    localStorage.setItem('fontSize', fontSize);
+});
+
+// Clear all memory
+const clearMemoryBtn = document.getElementById('clear-memory');
+
+clearMemoryBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear all memory? This action cannot be undone.')) {
+        localStorage.clear();
+        assignments = {};
+        updateAssignmentList();
+        alert('All memory has been cleared.');
+    }
+});
+
+// Load saved settings
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-theme');
+    }
+
+    const savedFontSize = localStorage.getItem('fontSize');
+    if (savedFontSize) {
+        fontSizeSlider.value = savedFontSize;
+        document.documentElement.style.fontSize = `${savedFontSize}px`;
+        fontSizeValue.textContent = `${savedFontSize}px`;
+    }
+
+    updateAssignmentList();
+});
+
 function updateAssignmentList() {
     const assignmentList = document.getElementById('assignment-list');
     assignmentList.innerHTML = '<h3>Your Assignments</h3>';
@@ -169,6 +229,18 @@ function longestCommonSubsequenceLength(a, b) {
     return dp[a.length][b.length];
 }
 
+function adjustMainContentHeight() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content-wrapper');
+    const footer = document.querySelector('.footer');
+    
+    const windowHeight = window.innerHeight;
+    const sidebarHeight = sidebar.offsetHeight;
+    const footerHeight = footer.offsetHeight;
+    
+    mainContent.style.minHeight = `${Math.max(sidebarHeight, windowHeight - footerHeight)}px`;
+}
+
 // Event Listeners
 document.getElementById('create-assignment-btn').addEventListener('click', showCreateAssignmentForm);
 document.getElementById('submit-new-assignment').addEventListener('click', createAssignment);
@@ -176,5 +248,6 @@ document.getElementById('cancel-new-assignment').addEventListener('click', hideC
 document.getElementById('confirm-delete').addEventListener('click', deleteAssignment);
 document.getElementById('cancel-delete').addEventListener('click', hideDeleteConfirmation);
 
-// Initialize the assignment list when the page loads
-updateAssignmentList();
+// Call the function on load and resize
+window.addEventListener('load', adjustMainContentHeight);
+window.addEventListener('resize', adjustMainContentHeight);
