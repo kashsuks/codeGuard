@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>codeGuard - Kashyap Sukshavasi</title>
+    <title>CodeGuard - Code Plagiarism Checker</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" href="/assets/favicon.png">
 </head>
 <body>
     <div class="container">
@@ -25,6 +24,15 @@
                 <input type="text" id="new-assignment-name" placeholder="Enter assignment name">
                 <button id="submit-new-assignment">Create</button>
                 <button id="cancel-new-assignment">Cancel</button>
+            </div>
+        </div>
+
+        <div id="delete-confirmation" class="modal">
+            <div class="modal-content">
+                <h3>Delete Assignment</h3>
+                <p>Are you sure you want to delete this assignment?</p>
+                <button id="confirm-delete">Yes</button>
+                <button id="cancel-delete">No</button>
             </div>
         </div>
         
