@@ -162,11 +162,11 @@ button:hover {
     background-color: #ced4da;
 }
 
-.delete-btn {
+delete-btn {
+    max-width: 5cm;
     background-color: #dc3545;
     color: white;
     border: none;
-    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     display: none;
