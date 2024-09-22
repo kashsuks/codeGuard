@@ -91,31 +91,10 @@ button:hover {
     margin-bottom: 5px;
     border-radius: 4px;
     cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .assignment-item:hover {
     background-color: #ced4da;
-}
-
-.delete-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: none;
-}
-
-.assignment-item:hover .delete-btn {
-    display: inline-block;
-}
-
-.delete-btn:hover {
-    background-color: #c82333;
 }
 
 .modal {
@@ -140,19 +119,11 @@ button:hover {
     border-radius: 8px;
 }
 
-#submit-new-assignment, #cancel-new-assignment, #confirm-delete, #cancel-delete {
+#submit-new-assignment, #cancel-new-assignment {
     display: inline-block;
     width: calc(50% - 5px);
 }
 
-#submit-new-assignment, #confirm-delete {
+#submit-new-assignment {
     margin-right: 10px;
-}
-
-#confirm-delete {
-    background-color: #dc3545;
-}
-
-#confirm-delete:hover {
-    background-color: #c82333;
 }

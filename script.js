@@ -1,6 +1,5 @@
 let currentAssignment = null;
 let assignments = JSON.parse(localStorage.getItem('assignments')) || {};
-let assignmentToDelete = null;
 
 function updateAssignmentList() {
     const assignmentList = document.getElementById('assignment-list');
@@ -9,21 +8,8 @@ function updateAssignmentList() {
     for (let assignmentName in assignments) {
         const assignmentItem = document.createElement('div');
         assignmentItem.className = 'assignment-item';
-        
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = assignmentName;
-        nameSpan.onclick = () => loadAssignment(assignmentName);
-        
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.onclick = (e) => {
-            e.stopPropagation();
-            showDeleteConfirmation(assignmentName);
-        };
-        
-        assignmentItem.appendChild(nameSpan);
-        assignmentItem.appendChild(deleteBtn);
+        assignmentItem.textContent = assignmentName;
+        assignmentItem.onclick = () => loadAssignment(assignmentName);
         assignmentList.appendChild(assignmentItem);
     }
 }
@@ -49,30 +35,6 @@ function createAssignment() {
         alert("An assignment with this name already exists.");
     } else {
         alert("Please enter a valid assignment name.");
-    }
-}
-
-function showDeleteConfirmation(assignmentName) {
-    assignmentToDelete = assignmentName;
-    document.getElementById('delete-confirmation').style.display = 'block';
-}
-
-function hideDeleteConfirmation() {
-    document.getElementById('delete-confirmation').style.display = 'none';
-    assignmentToDelete = null;
-}
-
-function deleteAssignment() {
-    if (assignmentToDelete) {
-        delete assignments[assignmentToDelete];
-        localStorage.setItem('assignments', JSON.stringify(assignments));
-        updateAssignmentList();
-        if (currentAssignment === assignmentToDelete) {
-            currentAssignment = null;
-            document.getElementById('checker-form').style.display = 'none';
-            document.getElementById('results').innerHTML = '';
-        }
-        hideDeleteConfirmation();
     }
 }
 
@@ -173,8 +135,6 @@ function longestCommonSubsequenceLength(a, b) {
 document.getElementById('create-assignment-btn').addEventListener('click', showCreateAssignmentForm);
 document.getElementById('submit-new-assignment').addEventListener('click', createAssignment);
 document.getElementById('cancel-new-assignment').addEventListener('click', hideCreateAssignmentForm);
-document.getElementById('confirm-delete').addEventListener('click', deleteAssignment);
-document.getElementById('cancel-delete').addEventListener('click', hideDeleteConfirmation);
 
 // Initialize the assignment list when the page loads
 updateAssignmentList();
