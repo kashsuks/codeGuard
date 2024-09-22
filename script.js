@@ -229,9 +229,25 @@ function longestCommonSubsequenceLength(a, b) {
     return dp[a.length][b.length];
 }
 
+function adjustMainContentHeight() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content-wrapper');
+    const footer = document.querySelector('.footer');
+    
+    const windowHeight = window.innerHeight;
+    const sidebarHeight = sidebar.offsetHeight;
+    const footerHeight = footer.offsetHeight;
+    
+    mainContent.style.minHeight = `${Math.max(sidebarHeight, windowHeight - footerHeight)}px`;
+}
+
 // Event Listeners
 document.getElementById('create-assignment-btn').addEventListener('click', showCreateAssignmentForm);
 document.getElementById('submit-new-assignment').addEventListener('click', createAssignment);
 document.getElementById('cancel-new-assignment').addEventListener('click', hideCreateAssignmentForm);
 document.getElementById('confirm-delete').addEventListener('click', deleteAssignment);
 document.getElementById('cancel-delete').addEventListener('click', hideDeleteConfirmation);
+
+// Call the function on load and resize
+window.addEventListener('load', adjustMainContentHeight);
+window.addEventListener('resize', adjustMainContentHeight);
