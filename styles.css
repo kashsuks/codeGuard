@@ -25,16 +25,6 @@ input, textarea, button {
     border-radius: 4px;
 }
 
-delete-btn {
-    max-width: 5cm;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: none;
-}
-
 button {
     background-color: #007bff;
     color: white;
@@ -160,7 +150,6 @@ button:hover {
 #submit-new-assignment, #confirm-delete {
     margin-right: 10px;
 }
-
 
 #confirm-delete {
     background-color: #dc3545;
