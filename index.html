@@ -3,50 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeGuard - Code Plagiarism Checker</title>
+    <title>codeGuard - Kashyap Sukshavasi</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
 </head>
 <body>
-    <div class="container">
-        <h2>Welcome to CodeGuard</h2>
-        <p>This tool helps you check for code plagiarism by comparing submitted code snippets within assignments.</p>
-        
-        <div id="assignment-list" class="assignment-list">
-            <h3>Your Assignments</h3>
-            <!-- Assignment list will be populated here -->
-        </div>
-        
-        <button id="create-assignment-btn">Create New Assignment</button>
-        
-        <div id="create-assignment-form" class="modal">
-            <div class="modal-content">
-                <h3>Create New Assignment</h3>
-                <input type="text" id="new-assignment-name" placeholder="Enter assignment name">
-                <button id="submit-new-assignment">Create</button>
-                <button id="cancel-new-assignment">Cancel</button>
-            </div>
-        </div>
 
-        <div id="delete-confirmation" class="modal">
-            <div class="modal-content">
-                <h3>Delete Assignment</h3>
-                <p>Are you sure you want to delete this assignment?</p>
-                <button id="confirm-delete">Yes</button>
-                <button id="cancel-delete">No</button>
-            </div>
-        </div>
-        
-        <div id="checker-form" class="checker-form" style="display: none;">
-            <h3 id="current-assignment">Current Assignment: None</h3>
-            <div id="error-message"></div>
-            <input type="text" id="name" placeholder="Enter your name">
-            <textarea id="code" rows="6" placeholder="Enter your code"></textarea>
-            <button onclick="submitCode()">Submit</button>
-            <div class="loader" id="loader"></div>
-        </div>
-        
-        <div id="results" class="results"></div>
+<div class="container">
+    <h2>Welcome to CodeGuard</h2>
+    <p>This tool helps you check for code plagiarism by comparing submitted code snippets. You can input your name and code, and our tool will let you know if there are any duplicates.</p>
+    
+    <div class="checker-form">
+        <h3>Code Plagiarism Checker</h3>
+        <div id="error-message" style="color: red;"></div>
+        <input type="text" id="name" placeholder="Enter your name">
+        <textarea id="code" rows="6" placeholder="Enter your code"></textarea>
+        <button onclick="submitCode()">Submit</button>
     </div>
+    
+    <div id="results" class="results"></div>
+</div>
 
     <footer class="footer">
         Made with ❤️ by Kashyap Sukshavasi
