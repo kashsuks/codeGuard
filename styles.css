@@ -101,6 +101,8 @@ button:hover {
 }
 
 .delete-btn {
+    max-width: 5cm;
+    max-height: 5cm;
     background-color: #dc3545;
     color: white;
     border: none;
