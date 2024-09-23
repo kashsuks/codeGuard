@@ -202,9 +202,21 @@ button:hover {
     border-radius: 8px;
 }
 
+.modal-content input {
+    width: calc(100% - 20px); /* Ensure input is aligned */
+    padding: 10px;
+    margin: 0 0 10px; /* Space below input */
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 #submit-new-assignment, #cancel-new-assignment, #confirm-delete, #cancel-delete {
     display: inline-block;
     width: calc(50% - 5px);
+    margin-right: 10px; /* Align buttons */
+    box-sizing: border-box;
 }
 
 #submit-new-assignment, #confirm-delete {
