@@ -230,7 +230,7 @@ button:hover {
     background-color: #ced4da;
 }
 
-.delete-btn {
+delete-btn {
     max-width: 5cm;
     background-color: #dc3545;
     color: white;
