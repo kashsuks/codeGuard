@@ -251,3 +251,40 @@ document.getElementById('cancel-delete').addEventListener('click', hideDeleteCon
 // Call the function on load and resize
 window.addEventListener('load', adjustMainContentHeight);
 window.addEventListener('resize', adjustMainContentHeight);
+
+// Autocomplete functionality
+const textareas = document.querySelectorAll('textarea');
+textareas.forEach(textarea => {
+    textarea.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            textarea.value = textarea.value.substring(0, start) + '    ' + textarea.value.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start + 4;
+        } else if (event.key === '(' || event.key === '[' || event.key === '{' || event.key === '"' || event.key === "'") {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            let closingChar;
+            switch (event.key) {
+                case '(':
+                    closingChar = ')';
+                    break;
+                case '[':
+                    closingChar = ']';
+                    break;
+                case '{':
+                    closingChar = '}';
+                    break;
+                case '"':
+                    closingChar = '"';
+                    break;
+                case "'":
+                    closingChar = "'";
+                    break;
+            }
+            textarea.value = textarea.value.substring(0, start) + event.key + closingChar + textarea.value.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start + 1;
+        }
+    });
+});
