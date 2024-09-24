@@ -258,10 +258,7 @@ textareas.forEach(textarea => {
     textarea.addEventListener('keydown', (event) => {
         if (event.key === 'Tab') {
             event.preventDefault();
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            textarea.value = textarea.value.substring(0, start) + '    ' + textarea.value.substring(end);
-            textarea.selectionStart = textarea.selectionEnd = start + 4;
+            textarea.value += '    ';
         } else if (event.key === '(' || event.key === '[' || event.key === '{' || event.key === '"' || event.key === "'") {
             const start = textarea.selectionStart;
             const end = textarea.selectionEnd;
@@ -283,7 +280,7 @@ textareas.forEach(textarea => {
                     closingChar = "'";
                     break;
             }
-            textarea.value = textarea.value.substring(0, start) + event.key + closingChar + textarea.value.substring(end);
+            textarea.value = textarea.value.slice(0, start) + event.key + closingChar + textarea.value.slice(end);
             textarea.selectionStart = textarea.selectionEnd = start + 1;
         }
     });
