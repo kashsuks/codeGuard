@@ -16,12 +16,111 @@
 }
 
 body {
-    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
-    line-height: 1.6;
+    min-height: 100vh;
 }
 
+/* Hide pages by default */
+.page {
+    display: none;
+}
+
+/* Show the active page */
+.page.active {
+    display: block;
+}
+
+/* Theme Variables */
+:root {
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --sidebar-background: #2c3e50;
+    --sidebar-text: white;
+    --active-link-background: #34495e;
+    --button-background: #007bff;
+    --button-hover: #0056b3;
+    --modal-background: rgba(0,0,0,0.4);
+    --container-background: white;
+    --container-shadow: rgba(0,0,0,0.1);
+    --assignment-item-background: #e9ecef;
+    --assignment-item-hover: #ced4da;
+}
+
+/* Ocean Breeze Theme */
+body.ocean-breeze {
+    --background-color: #dff9fb;
+    --text-color: #130f40;
+    --sidebar-background: #130f40;
+    --active-link-background: #535c68;
+    --button-background: #0984e3;
+    --button-hover: #74b9ff;
+    --container-background: #f1f2f6;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --assignment-item-background: #dfe6e9;
+    --assignment-item-hover: #b2bec3;
+}
+
+/* Sunset Horizon Theme */
+body.sunset-horizon {
+    --background-color: #ffeaa7;
+    --text-color: #2d3436;
+    --sidebar-background: #e17055;
+    --active-link-background: #d63031;
+    --button-background: #fd79a8;
+    --button-hover: #ff7675;
+    --container-background: #fab1a0;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --assignment-item-background: #ffeaa7;
+    --assignment-item-hover: #ffb142;
+}
+
+/* Forest Calm Theme */
+body.forest-calm {
+    --background-color: #b8e994;
+    --text-color: #2e3131;
+    --sidebar-background: #16a085;
+    --active-link-background: #27ae60;
+    --button-background: #2ecc71;
+    --button-hover: #1abc9c;
+    --container-background: #d1f2eb;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --assignment-item-background: #a3cb38;
+    --assignment-item-hover: #78e08f;
+}
+
+/* Midnight Code Theme */
+body.midnight-code {
+    --background-color: #2c3e50;
+    --text-color: #ecf0f1;
+    --sidebar-background: #34495e;
+    --active-link-background: #2980b9;
+    --button-background: #3498db;
+    --button-hover: #2980b9;
+    --container-background: #34495e;
+    --container-shadow: rgba(255, 255, 255, 0.1);
+    --assignment-item-background: #576574;
+    --assignment-item-hover: #8395a7;
+}
+
+/* Lavender Dreams Theme */
+body.lavender-dreams {
+    --background-color: #f8a5c2;
+    --text-color: #2d3436;
+    --sidebar-background: #6c5ce7;
+    --active-link-background: #a29bfe;
+    --button-background: #f368e0;
+    --button-hover: #ff9ff3;
+    --container-background: #ffeaa7;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --assignment-item-background: #f8a5c2;
+    --assignment-item-hover: #f78fb3;
+}
+
+/* Sidebar and Main Content */
 .app-container {
     display: flex;
     min-height: 100vh;
@@ -32,7 +131,10 @@ body {
     width: 250px;
     background-color: var(--sidebar-background);
     color: var(--sidebar-text);
+    background-color: var(--sidebar-background);
+    color: var(--sidebar-text);
     padding: 20px;
+    box-shadow: 2px 0 5px var(--container-shadow);
     box-shadow: 2px 0 5px var(--container-shadow);
 }
 
@@ -57,6 +159,7 @@ body {
 
 .sidebar nav ul li a {
     color: var(--sidebar-text);
+    color: var(--sidebar-text);
     text-decoration: none;
     display: block;
     padding: 10px;
@@ -66,6 +169,7 @@ body {
 
 .sidebar nav ul li a:hover,
 .sidebar nav ul li a.active {
+    background-color: var(--active-link-background);
     background-color: var(--active-link-background);
 }
 
@@ -92,11 +196,26 @@ body {
     max-width: 800px;
     margin: 0 auto;
     background: var(--container-background);
-    padding: 30px;
+    padding: 20px;
     border-radius: 8px;
+    box-shadow: 0 0 10px var(--container-shadow);
     box-shadow: 0 0 10px var(--container-shadow);
 }
 
+/* Assignments */
+.assignment-item {
+    background-color: var(--assignment-item-background);
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assignment-item:hover {
+    background-color: var(--assignment-item-hover);
 /* Button styling */
 .btn {
     padding: 10px 20px;
@@ -111,6 +230,9 @@ body {
     transform: translateY(-2px);
 }
 
+/* Buttons */
+button {
+    background-color: var(--button-background);
 .btn-primary {
     background-color: #007bff;
     color: white;
@@ -131,10 +253,50 @@ body {
     color: white;
 }
 
+button:hover {
+    background-color: var(--button-hover);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--modal-background);
+}
+
+.modal-content {
+    background-color: var(--container-background);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
 .btn-primary:hover {
     background-color: #0056b3;
 }
 
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--button-background);
+    color: white;
+    width: 100%;
+    box-shadow: 0 -2px 10px var(--container-shadow);
+}
+
+.results {
+    margin-top: 20px;
+}
+
+.result {
 /* Form styling */
 .form-group {
     margin-bottom: 20px;
@@ -149,10 +311,15 @@ body {
 .form-control {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: var(--assignment-item-background);
+}
+
+#error-message {
+    color: red;
+    margin-bottom: 10px;
 }
 
 .form-control:focus {
@@ -179,6 +346,19 @@ body {
 
 .assignment-item:hover {
     background-color: var(--assignment-item-hover);
+
+.delete-btn {
+    max-width: 5cm;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+}
+
+.assignment-item:hover .delete-btn {
+    display: inline-block;
 }
 
 /* Modal styling */
