@@ -13,13 +13,14 @@ document.querySelectorAll('.sidebar nav a').forEach(link => {
     });
 });
 
-// Theme toggle
-const themeToggle = document.getElementById('theme-toggle');
+// Theme selection
+const themeSelect = document.getElementById('theme-select');
 const body = document.body;
 
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+themeSelect.addEventListener('change', () => {
+    const selectedTheme = themeSelect.value;
+    body.className = selectedTheme;
+    localStorage.setItem('theme', selectedTheme);
 });
 
 // Font size adjustment
@@ -48,8 +49,9 @@ clearMemoryBtn.addEventListener('click', () => {
 // Load saved settings
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-theme');
+    if (savedTheme) {
+        body.className = savedTheme;
+        themeSelect.value = savedTheme;
     }
 
     const savedFontSize = localStorage.getItem('fontSize');
