@@ -20,12 +20,19 @@ const errorMessage = document.getElementById('error-message');
 const resultsDiv = document.getElementById('results');
 const loader = document.getElementById('loader');
 
-// Sidebar navigation
+// Sidebar navigation - show sections when corresponding links are clicked
 document.querySelectorAll('.sidebar nav a').forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault();
+
+        // Hide all sections
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.querySelector(this.getAttribute('href')).classList.add('active');
+
+        // Show the selected section
+        const targetPage = this.getAttribute('href');
+        document.querySelector(targetPage).classList.add('active');
+
+        // Highlight the active link in the sidebar
         document.querySelectorAll('.sidebar nav a').forEach(navLink => navLink.classList.remove('active'));
         this.classList.add('active');
     });
@@ -106,9 +113,7 @@ function updateThemeColors(theme) {
             root.style.setProperty('--button-background', '#fd79a8');
             root.style.setProperty('--button-hover', '#ff7675');
             break;
-        // ... (add cases for other themes) ...
         default:
-            // Default theme colors
             root.style.setProperty('--background-color', '#f8f9fa');
             root.style.setProperty('--text-color', '#333');
             root.style.setProperty('--sidebar-background', '#2c3e50');
@@ -297,31 +302,30 @@ function checkPlagiarism(name, code) {
     }
 
     if (matchPercentages.length > 0) {
-        matchPercentages.forEach(result => {
-            resultList.push(`<div class="result">
-                <h4>Match found with: ${result.name}</h4>
-                <p>Similarity: ${result.percentage.toFixed(2)}%</p>
-            </div>`);
+        resultsDiv.innerHTML = '<h3>Possible Matches:</h3>';
+        matchPercentages.sort((a, b) => b.percentage - a.percentage);
+
+        matchPercentages.forEach(match => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
+            resultItem.innerHTML = `<strong>${match.name}</strong> - ${match.percentage}% match 
+                                    <button class="btn btn-primary" onclick="compareCodes('${name}', '${match.name}')">Compare</button>`;
+            resultsDiv.appendChild(resultItem);
         });
     } else {
-        resultList.push('<div class="result"><h4>No plagiarism detected.</h4></div>');
+        resultsDiv.innerHTML = '<p>No matches found.</p>';
     }
-
-    resultsDiv.innerHTML = resultList.join('');
 }
 
 function calculateLCSPercentage(code1, code2) {
-    const lcsLength = longestCommonSubsequenceLength(code1, code2);
-    const maxLength = Math.max(code1.length, code2.length);
-    return (lcsLength / maxLength) * 100;
-}
+    const len1 = code1.length;
+    const len2 = code2.length;
 
-function longestCommonSubsequenceLength(a, b) {
-    const dp = Array(a.length + 1).fill().map(() => Array(b.length + 1).fill(0));
+    const dp = Array(len1 + 1).fill(null).map(() => Array(len2 + 1).fill(0));
 
-    for (let i = 1; i <= a.length; i++) {
-        for (let j = 1; j <= b.length; j++) {
-            if (a[i - 1] === b[j - 1]) {
+    for (let i = 1; i <= len1; i++) {
+        for (let j = 1; j <= len2; j++) {
+            if (code1[i - 1] === code2[j - 1]) {
                 dp[i][j] = dp[i - 1][j - 1] + 1;
             } else {
                 dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
@@ -329,21 +333,50 @@ function longestCommonSubsequenceLength(a, b) {
         }
     }
 
-    return dp[a.length][b.length];
+    const lcsLength = dp[len1][len2];
+    const maxLen = Math.max(len1, len2);
+    return Math.floor((lcsLength / maxLen) * 100);
 }
 
-// Adjust main content height
-function adjustMainContentHeight() {
-    const sidebar = document.querySelector('.sidebar');
-    const mainContent = document.querySelector('.main-content-wrapper');
-    const footer = document.querySelector('.footer');
-    
-    const windowHeight = window.innerHeight;
-    const sidebarHeight = sidebar.offsetHeight;
-    const footerHeight = footer.offsetHeight;
-    
-    mainContent.style.minHeight = `${Math.max(sidebarHeight, windowHeight - footerHeight)}px`;
+function compareCodes(name1, name2) {
+    const code1 = assignments[currentAssignment][name1];
+    const code2 = assignments[currentAssignment][name2];
+
+    const diff = createDiff(code1, code2);
+
+    resultsDiv.innerHTML = `<h3>Comparison between ${name1} and ${name2}:</h3>`;
+    resultsDiv.innerHTML += `<pre>${diff}</pre>`;
 }
 
-window.addEventListener('load', adjustMainContentHeight);
-window.addEventListener('resize', adjustMainContentHeight);
+function createDiff(code1, code2) {
+    const diff = [];
+
+    const lines1 = code1.split('\n');
+    const lines2 = code2.split('\n');
+
+    let i = 0, j = 0;
+    while (i < lines1.length && j < lines2.length) {
+        if (lines1[i] === lines2[j]) {
+            diff.push(` ${lines1[i]}`);
+            i++;
+            j++;
+        } else if (lines1[i] !== lines2[j]) {
+            diff.push(`- ${lines1[i]}`);
+            diff.push(`+ ${lines2[j]}`);
+            i++;
+            j++;
+        }
+    }
+
+    while (i < lines1.length) {
+        diff.push(`- ${lines1[i]}`);
+        i++;
+    }
+
+    while (j < lines2.length) {
+        diff.push(`+ ${lines2[j]}`);
+        j++;
+    }
+
+    return diff.join('\n');
+}
