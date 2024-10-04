@@ -20,19 +20,12 @@ const errorMessage = document.getElementById('error-message');
 const resultsDiv = document.getElementById('results');
 const loader = document.getElementById('loader');
 
-// Sidebar navigation - show sections when corresponding links are clicked
+// Sidebar navigation
 document.querySelectorAll('.sidebar nav a').forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
         e.preventDefault();
-
-        // Hide all sections
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-
-        // Show the selected section
-        const targetPage = this.getAttribute('href');
-        document.querySelector(targetPage).classList.add('active');
-
-        // Highlight the active link in the sidebar
+        document.querySelector(this.getAttribute('href')).classList.add('active');
         document.querySelectorAll('.sidebar nav a').forEach(navLink => navLink.classList.remove('active'));
         this.classList.add('active');
     });
@@ -121,18 +114,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function updateAssignmentList() {
     assignmentList.innerHTML = '<h3>Your Assignments</h3>';
-    
+
     if (Object.keys(assignments).length === 0) {
         assignmentList.innerHTML += '<p>No assignments yet. Create one to get started!</p>';
     } else {
         for (let assignmentName in assignments) {
             const assignmentItem = document.createElement('div');
             assignmentItem.className = 'assignment-item';
-            
+
             const nameSpan = document.createElement('span');
             nameSpan.textContent = assignmentName;
             nameSpan.onclick = () => loadAssignment(assignmentName);
-            
+
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'btn btn-danger';
             deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
@@ -140,7 +133,7 @@ function updateAssignmentList() {
                 e.stopPropagation();
                 showDeleteConfirmation(assignmentName);
             };
-            
+
             assignmentItem.appendChild(nameSpan);
             assignmentItem.appendChild(deleteBtn);
             assignmentList.appendChild(assignmentItem);
@@ -251,7 +244,7 @@ function checkPlagiarism(name, code) {
 
     for (let [submittedName, submittedCode] of Object.entries(assignments[currentAssignment])) {
         if (submittedName !== name) {
-            const matchPercentage = calculateLCSPercentage(code, submittedCode);
+            const matchPercentage = calculateLCSPercentage(code, submittedCode).toFixed(4);
             if (matchPercentage > 0) {
                 matchPercentages.push({ name: submittedName, percentage: matchPercentage });
             }
@@ -259,25 +252,21 @@ function checkPlagiarism(name, code) {
     }
 
     if (matchPercentages.length > 0) {
-        resultsDiv.innerHTML = '<h3>Possible Matches:</h3>';
-        matchPercentages.sort((a, b) => b.percentage - a.percentage);
-
-        matchPercentages.forEach(match => {
-            const resultItem = document.createElement('div');
-            resultItem.className = 'result-item';
-            resultItem.innerHTML = `<strong>${match.name}</strong> - ${match.percentage}% match 
-                                    <button class="btn btn-primary" onclick="compareCodes('${name}', '${match.name}')">Compare</button>`;
-            resultsDiv.appendChild(resultItem);
+        matchPercentages.forEach(result => {
+            resultList.push(`<div class="result">
+                <strong>${result.name}</strong>: ${result.percentage}% match
+            </div>`);
         });
     } else {
-        resultsDiv.innerHTML = '<p>No matches found.</p>';
+        resultList.push('<div class="result">No matches found.</div>');
     }
+
+    resultsDiv.innerHTML = resultList.join('');
 }
 
 function calculateLCSPercentage(code1, code2) {
     const len1 = code1.length;
     const len2 = code2.length;
-
     const dp = Array(len1 + 1).fill(null).map(() => Array(len2 + 1).fill(0));
 
     for (let i = 1; i <= len1; i++) {
@@ -291,49 +280,7 @@ function calculateLCSPercentage(code1, code2) {
     }
 
     const lcsLength = dp[len1][len2];
-    const maxLen = Math.max(len1, len2);
-    return Math.floor((lcsLength / maxLen) * 100);
-}
+    const maxLength = Math.max(len1, len2);
 
-function compareCodes(name1, name2) {
-    const code1 = assignments[currentAssignment][name1];
-    const code2 = assignments[currentAssignment][name2];
-
-    const diff = createDiff(code1, code2);
-
-    resultsDiv.innerHTML = `<h3>Comparison between ${name1} and ${name2}:</h3>`;
-    resultsDiv.innerHTML += `<pre>${diff}</pre>`;
-}
-
-function createDiff(code1, code2) {
-    const diff = [];
-
-    const lines1 = code1.split('\n');
-    const lines2 = code2.split('\n');
-
-    let i = 0, j = 0;
-    while (i < lines1.length && j < lines2.length) {
-        if (lines1[i] === lines2[j]) {
-            diff.push(` ${lines1[i]}`);
-            i++;
-            j++;
-        } else if (lines1[i] !== lines2[j]) {
-            diff.push(`- ${lines1[i]}`);
-            diff.push(`+ ${lines2[j]}`);
-            i++;
-            j++;
-        }
-    }
-
-    while (i < lines1.length) {
-        diff.push(`- ${lines1[i]}`);
-        i++;
-    }
-
-    while (j < lines2.length) {
-        diff.push(`+ ${lines2[j]}`);
-        j++;
-    }
-
-    return diff.join('\n');
+    return (lcsLength / maxLength) * 100;
 }
