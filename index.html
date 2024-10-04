@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeGuard - Code Plagiarism Checker</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="/images/favicon.png">
 </head>
 <body>
     <div class="app-container">
-        <div class="sidebar">
+        <aside class="sidebar">
             <div class="sidebar-header">
+                <img src="/images/codeguard-logo.svg" alt="CodeGuard Logo" class="logo">
                 <h2>CodeGuard</h2>
             </div>
             <nav>
@@ -21,28 +22,32 @@
                     <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
                 </ul>
             </nav>
-        </div>
+        </aside>
 
-        <div class="main-content-wrapper">
+        <main class="main-content-wrapper">
             <div class="main-content">
-                <div id="home" class="page active">
+                <section id="home" class="page active">
                     <div class="container">
                         <h2>Welcome to CodeGuard</h2>
-                        <p>This tool helps you check for code plagiarism by comparing submitted code snippets within assignments.</p>
+                        <p>Ensure academic integrity with our advanced code plagiarism detection tool.</p>
                         
                         <div id="assignment-list" class="assignment-list">
                             <h3>Your Assignments</h3>
                             <!-- Assignment list will be populated here -->
                         </div>
                         
-                        <button id="create-assignment-btn">Create New Assignment</button>
+                        <button id="create-assignment-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create New Assignment
+                        </button>
                         
                         <div id="create-assignment-form" class="modal">
                             <div class="modal-content">
                                 <h3>Create New Assignment</h3>
                                 <input type="text" id="new-assignment-name" placeholder="Enter assignment name">
-                                <button id="submit-new-assignment">Create</button>
-                                <button id="cancel-new-assignment">Cancel</button>
+                                <div class="button-group">
+                                    <button id="submit-new-assignment" class="btn btn-success">Create</button>
+                                    <button id="cancel-new-assignment" class="btn btn-secondary">Cancel</button>
+                                </div>
                             </div>
                         </div>
 
@@ -50,79 +55,94 @@
                             <div class="modal-content">
                                 <h3>Delete Assignment</h3>
                                 <p>Are you sure you want to delete this assignment?</p>
-                                <button id="confirm-delete">Yes</button>
-                                <button id="cancel-delete">No</button>
+                                <div class="button-group">
+                                    <button id="confirm-delete" class="btn btn-danger">Yes, Delete</button>
+                                    <button id="cancel-delete" class="btn btn-secondary">Cancel</button>
+                                </div>
                             </div>
                         </div>
                         
                         <div id="checker-form" class="checker-form" style="display: none;">
                             <h3 id="current-assignment">Current Assignment: None</h3>
-                            <div id="error-message"></div>
-                            <input type="text" id="name" placeholder="Enter your name">
-                            <textarea id="code" rows="6" placeholder="Enter your code"></textarea>
-                            <button onclick="submitCode()">Submit</button>
+                            <div id="error-message" class="error-message"></div>
+                            <div class="form-group">
+                                <label for="name">Your Name:</label>
+                                <input type="text" id="name" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="code">Your Code:</label>
+                                <textarea id="code" rows="6" placeholder="Enter your code"></textarea>
+                            </div>
+                            <button onclick="submitCode()" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit
+                            </button>
                             <div class="loader" id="loader"></div>
                         </div>
                         
                         <div id="results" class="results"></div>
                     </div>
-                </div>
+                </section>
 
-                <div id="about" class="page">
+                <section id="about" class="page">
                     <div class="container">
                         <h2>About CodeGuard</h2>
-                        <section>
-                            <h3>What is CodeGuard?</h3>
-                            <p>CodeGuard is a powerful tool designed to detect and prevent code plagiarism in educational settings.</p>
-                        </section>
-                        <section>
-                            <h3>What is it for?</h3>
-                            <p>It's primarily used by educators and institutions to ensure academic integrity in programming assignments and courses.</p>
-                        </section>
-                        <section>
-                            <h3>How does it help education?</h3>
-                            <p>CodeGuard promotes original thinking and helps students develop their own coding skills by discouraging copy-paste practices.</p>
-                        </section>
-                        <section>
-                            <h3>Future Updates</h3>
-                            <p>We're constantly improving CodeGuard. Upcoming features include integration with popular learning management systems and support for more programming languages.</p>
-                        </section>
-                        <section>
-                            <h3>About Me</h3>
-                            <p>Hello! I'm Kashyap Sukshavasi, a passionate developer dedicated to improving the quality of computer science education through innovative tools like CodeGuard.</p>
-                        </section>
+                        <div class="about-content">
+                            <div class="about-section">
+                                <h3>What is CodeGuard?</h3>
+                                <p>CodeGuard is a powerful tool designed to detect and prevent code plagiarism in educational settings.</p>
+                            </div>
+                            <div class="about-section">
+                                <h3>How does it help education?</h3>
+                                <p>CodeGuard promotes original thinking and helps students develop their own coding skills by discouraging copy-paste practices.</p>
+                            </div>
+                            <div class="about-section">
+                                <h3>Future Updates</h3>
+                                <p>We're constantly improving CodeGuard. Upcoming features include integration with popular learning management systems and support for more programming languages.</p>
+                            </div>
+                            <div class="about-section">
+                                <h3>About the Developer</h3>
+                                <p>Hello! I'm Kashyap Sukshavasi, a passionate developer dedicated to improving the quality of computer science education through innovative tools like CodeGuard.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
 
-                <div id="settings" class="page">
+                <section id="settings" class="page">
                     <div class="container">
                         <h2>Settings</h2>
-                        <section>
-                            <h3>Theme</h3>
-                            <select id="theme-select">
-                                <option value="ocean-breeze">Ocean Breeze</option>
-                                <option value="sunset-horizon">Sunset Horizon</option>
-                                <option value="forest-calm">Forest Calm</option>
-                                <option value="midnight-code">Midnight Code</option>
-                                <option value="lavender-dreams">Lavender Dreams</option>
-                            </select>
-                        </section>
-                        <section>
-                            <h3>Font Size</h3>
-                            <input type="range" id="font-size-slider" min="12" max="24" value="16">
-                            <span id="font-size-value">16px</span>
-                        </section>
-                        <section>
-                            <h3>Danger Zone</h3>
-                            <button id="clear-memory" class="danger">Clear All Memory</button>
-                        </section>
+                        <div class="settings-content">
+                            <div class="settings-section">
+                                <h3>Theme</h3>
+                                <select id="theme-select" class="form-control">
+                                    <option value="ocean-breeze">Ocean Breeze</option>
+                                    <option value="sunset-horizon">Sunset Horizon</option>
+                                    <option value="forest-calm">Forest Calm</option>
+                                    <option value="midnight-code">Midnight Code</option>
+                                    <option value="lavender-dreams">Lavender Dreams</option>
+                                </select>
+                            </div>
+                            <div class="settings-section">
+                                <h3>Font Size</h3>
+                                <div class="font-size-control">
+                                    <input type="range" id="font-size-slider" min="12" max="24" value="16">
+                                    <span id="font-size-value">16px</span>
+                                </div>
+                            </div>
+                            <div class="settings-section danger-zone">
+                                <h3>Danger Zone</h3>
+                                <button id="clear-memory" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Clear All Memory
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
             </div>
             <footer class="footer">
-                Made with ❤️ by Kashyap Sukshavasi
+                <p>Made with <i class="fas fa-heart"></i> by Kashyap Sukshavasi</p>
+                <p>&copy; 2024 CodeGuard. All rights reserved.</p>
             </footer>
-        </div>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>
