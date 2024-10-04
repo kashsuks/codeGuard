@@ -70,9 +70,7 @@ function updateThemeColors(theme) {
             root.style.setProperty('--button-background', '#fd79a8');
             root.style.setProperty('--button-hover', '#ff7675');
             break;
-        // ... (add cases for other themes) ...
         default:
-            // Default theme colors
             root.style.setProperty('--background-color', '#f8f9fa');
             root.style.setProperty('--text-color', '#333');
             root.style.setProperty('--sidebar-background', '#2c3e50');
