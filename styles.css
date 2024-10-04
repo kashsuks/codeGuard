@@ -112,7 +112,7 @@ body {
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #3498db; /* Changed to a nice blue color */
     color: white;
 }
 
@@ -132,7 +132,7 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #2980b9; /* Darker shade of blue for hover state */
 }
 
 /* Form styling */
@@ -207,12 +207,15 @@ body {
 
 .button-group {
     display: flex;
-    justify-content: flex-end;
     margin-top: 20px;
 }
 
+.button-group.left-aligned {
+    justify-content: flex-start;
+}
+
 .button-group .btn {
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 /* Results styling */
@@ -254,8 +257,8 @@ body {
 
 .page {
     display: none; /* Hide all pages by default */
-  }
-  
-  .page.active {
+}
+
+.page.active {
     display: block; /* Only show the active page */
-  }
+}
