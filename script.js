@@ -33,11 +33,9 @@ document.querySelectorAll('.sidebar nav a').forEach(link => {
 
 // Theme selection
 const themeSelect = document.getElementById('theme-select');
-const body = document.body;
-
 themeSelect.addEventListener('change', () => {
     const selectedTheme = themeSelect.value;
-    body.className = selectedTheme;
+    document.body.className = selectedTheme;
     localStorage.setItem('theme', selectedTheme);
 });
 // Theme selection
@@ -109,7 +107,7 @@ clearMemoryBtn.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-        body.className = savedTheme;
+        document.body.className = savedTheme;
         themeSelect.value = savedTheme;
     }
 
