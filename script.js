@@ -2,6 +2,24 @@ let currentAssignment = null;
 let assignments = JSON.parse(localStorage.getItem('assignments')) || {};
 let assignmentToDelete = null;
 
+// DOM Elements
+const assignmentList = document.getElementById('assignment-list');
+const createAssignmentBtn = document.getElementById('create-assignment-btn');
+const createAssignmentForm = document.getElementById('create-assignment-form');
+const newAssignmentNameInput = document.getElementById('new-assignment-name');
+const submitNewAssignmentBtn = document.getElementById('submit-new-assignment');
+const cancelNewAssignmentBtn = document.getElementById('cancel-new-assignment');
+const deleteConfirmationModal = document.getElementById('delete-confirmation');
+const confirmDeleteBtn = document.getElementById('confirm-delete');
+const cancelDeleteBtn = document.getElementById('cancel-delete');
+const checkerForm = document.getElementById('checker-form');
+const currentAssignmentTitle = document.getElementById('current-assignment');
+const nameInput = document.getElementById('name');
+const codeInput = document.getElementById('code');
+const errorMessage = document.getElementById('error-message');
+const resultsDiv = document.getElementById('results');
+const loader = document.getElementById('loader');
+
 // Sidebar navigation
 document.querySelectorAll('.sidebar nav a').forEach(link => {
     link.addEventListener('click', function(e) {
@@ -13,19 +31,53 @@ document.querySelectorAll('.sidebar nav a').forEach(link => {
     });
 });
 
-// Theme toggle
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+// Theme selection
+const themeSelect = document.getElementById('theme-select');
+themeSelect.addEventListener('change', () => {
+    const selectedTheme = themeSelect.value;
+    applyTheme(selectedTheme);
+    localStorage.setItem('theme', selectedTheme);
 });
+
+function applyTheme(theme) {
+    document.body.className = theme;
+    updateThemeColors(theme);
+}
+
+function updateThemeColors(theme) {
+    const root = document.documentElement;
+    switch (theme) {
+        case 'ocean-breeze':
+            root.style.setProperty('--background-color', '#dff9fb');
+            root.style.setProperty('--text-color', '#130f40');
+            root.style.setProperty('--sidebar-background', '#130f40');
+            root.style.setProperty('--active-link-background', '#535c68');
+            root.style.setProperty('--button-background', '#0984e3');
+            root.style.setProperty('--button-hover', '#74b9ff');
+            break;
+        case 'sunset-horizon':
+            root.style.setProperty('--background-color', '#ffeaa7');
+            root.style.setProperty('--text-color', '#2d3436');
+            root.style.setProperty('--sidebar-background', '#e17055');
+            root.style.setProperty('--active-link-background', '#d63031');
+            root.style.setProperty('--button-background', '#fd79a8');
+            root.style.setProperty('--button-hover', '#ff7675');
+            break;
+        // ... (add cases for other themes) ...
+        default:
+            // Default theme colors
+            root.style.setProperty('--background-color', '#f8f9fa');
+            root.style.setProperty('--text-color', '#333');
+            root.style.setProperty('--sidebar-background', '#2c3e50');
+            root.style.setProperty('--active-link-background', '#34495e');
+            root.style.setProperty('--button-background', '#007bff');
+            root.style.setProperty('--button-hover', '#0056b3');
+    }
+}
 
 // Font size adjustment
 const fontSizeSlider = document.getElementById('font-size-slider');
 const fontSizeValue = document.getElementById('font-size-value');
-
 fontSizeSlider.addEventListener('input', () => {
     const fontSize = fontSizeSlider.value;
     document.documentElement.style.fontSize = `${fontSize}px`;
@@ -35,7 +87,6 @@ fontSizeSlider.addEventListener('input', () => {
 
 // Clear all memory
 const clearMemoryBtn = document.getElementById('clear-memory');
-
 clearMemoryBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to clear all memory? This action cannot be undone.')) {
         localStorage.clear();
@@ -48,8 +99,9 @@ clearMemoryBtn.addEventListener('click', () => {
 // Load saved settings
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+        themeSelect.value = savedTheme;
     }
 
     const savedFontSize = localStorage.getItem('fontSize');
@@ -63,42 +115,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateAssignmentList() {
-    const assignmentList = document.getElementById('assignment-list');
     assignmentList.innerHTML = '<h3>Your Assignments</h3>';
     
-    for (let assignmentName in assignments) {
-        const assignmentItem = document.createElement('div');
-        assignmentItem.className = 'assignment-item';
-        
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = assignmentName;
-        nameSpan.onclick = () => loadAssignment(assignmentName);
-        
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.onclick = (e) => {
-            e.stopPropagation();
-            showDeleteConfirmation(assignmentName);
-        };
-        
-        assignmentItem.appendChild(nameSpan);
-        assignmentItem.appendChild(deleteBtn);
-        assignmentList.appendChild(assignmentItem);
+    if (Object.keys(assignments).length === 0) {
+        assignmentList.innerHTML += '<p>No assignments yet. Create one to get started!</p>';
+    } else {
+        for (let assignmentName in assignments) {
+            const assignmentItem = document.createElement('div');
+            assignmentItem.className = 'assignment-item';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = assignmentName;
+            nameSpan.onclick = () => loadAssignment(assignmentName);
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-danger';
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteBtn.onclick = (e) => {
+                e.stopPropagation();
+                showDeleteConfirmation(assignmentName);
+            };
+            
+            assignmentItem.appendChild(nameSpan);
+            assignmentItem.appendChild(deleteBtn);
+            assignmentList.appendChild(assignmentItem);
+        }
     }
 }
 
+createAssignmentBtn.addEventListener('click', showCreateAssignmentForm);
+submitNewAssignmentBtn.addEventListener('click', createAssignment);
+cancelNewAssignmentBtn.addEventListener('click', hideCreateAssignmentForm);
+confirmDeleteBtn.addEventListener('click', deleteAssignment);
+cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+
 function showCreateAssignmentForm() {
-    document.getElementById('create-assignment-form').style.display = 'block';
+    createAssignmentForm.style.display = 'block';
 }
 
 function hideCreateAssignmentForm() {
-    document.getElementById('create-assignment-form').style.display = 'none';
-    document.getElementById('new-assignment-name').value = '';
+    createAssignmentForm.style.display = 'none';
+    newAssignmentNameInput.value = '';
 }
 
 function createAssignment() {
-    const assignmentName = document.getElementById('new-assignment-name').value.trim();
+    const assignmentName = newAssignmentNameInput.value.trim();
     if (assignmentName && !assignments[assignmentName]) {
         assignments[assignmentName] = {};
         localStorage.setItem('assignments', JSON.stringify(assignments));
@@ -114,11 +175,11 @@ function createAssignment() {
 
 function showDeleteConfirmation(assignmentName) {
     assignmentToDelete = assignmentName;
-    document.getElementById('delete-confirmation').style.display = 'block';
+    deleteConfirmationModal.style.display = 'block';
 }
 
 function hideDeleteConfirmation() {
-    document.getElementById('delete-confirmation').style.display = 'none';
+    deleteConfirmationModal.style.display = 'none';
     assignmentToDelete = null;
 }
 
@@ -129,8 +190,8 @@ function deleteAssignment() {
         updateAssignmentList();
         if (currentAssignment === assignmentToDelete) {
             currentAssignment = null;
-            document.getElementById('checker-form').style.display = 'none';
-            document.getElementById('results').innerHTML = '';
+            checkerForm.style.display = 'none';
+            resultsDiv.innerHTML = '';
         }
         hideDeleteConfirmation();
     }
@@ -138,9 +199,9 @@ function deleteAssignment() {
 
 function loadAssignment(assignmentName) {
     currentAssignment = assignmentName;
-    document.getElementById('current-assignment').textContent = `Current Assignment: ${assignmentName}`;
-    document.getElementById('checker-form').style.display = 'block';
-    document.getElementById('results').innerHTML = '';
+    currentAssignmentTitle.textContent = `Current Assignment: ${assignmentName}`;
+    checkerForm.style.display = 'block';
+    resultsDiv.innerHTML = '';
 }
 
 function submitCode() {
@@ -149,22 +210,19 @@ function submitCode() {
         return;
     }
 
-    const name = document.getElementById('name').value.trim();
-    const code = document.getElementById('code').value.trim();
-    const resultsDiv = document.getElementById('results');
-    const errorMessageDiv = document.getElementById('error-message');
-    const loader = document.getElementById('loader');
+    const name = nameInput.value.trim();
+    const code = codeInput.value.trim();
 
-    errorMessageDiv.innerHTML = '';
+    errorMessage.innerHTML = '';
     resultsDiv.innerHTML = '';
 
     if (!name || !code) {
-        errorMessageDiv.innerHTML = 'Please fill in both fields.';
+        errorMessage.innerHTML = 'Please fill in both fields.';
         return;
     }
 
     if (assignments[currentAssignment][name]) {
-        errorMessageDiv.innerHTML = 'This name has already been used in this assignment. Please use a different name.';
+        errorMessage.innerHTML = 'This name has already been used in this assignment. Please use a different name.';
         return;
     }
 
@@ -174,8 +232,8 @@ function submitCode() {
         assignments[currentAssignment][name] = code;
         localStorage.setItem('assignments', JSON.stringify(assignments));
 
-        document.getElementById('name').value = '';
-        document.getElementById('code').value = '';
+        nameInput.value = '';
+        codeInput.value = '';
 
         checkPlagiarism(name, code);
         loader.style.display = 'none';
@@ -183,7 +241,6 @@ function submitCode() {
 }
 
 function checkPlagiarism(name, code) {
-    const resultsDiv = document.getElementById('results');
     const resultList = [];
     const matchPercentages = [];
 
@@ -198,10 +255,13 @@ function checkPlagiarism(name, code) {
 
     if (matchPercentages.length > 0) {
         matchPercentages.forEach(result => {
-            resultList.push(`<div class="result">Plagiarism detected with name: ${result.name}. Match: ${result.percentage.toFixed(2)}%</div>`);
+            resultList.push(`<div class="result">
+                <h4>Match found with: ${result.name}</h4>
+                <p>Similarity: ${result.percentage.toFixed(2)}%</p>
+            </div>`);
         });
     } else {
-        resultList.push('<div class="result">No plagiarism detected.</div>');
+        resultList.push('<div class="result"><h4>No plagiarism detected.</h4></div>');
     }
 
     resultsDiv.innerHTML = resultList.join('');
@@ -229,6 +289,7 @@ function longestCommonSubsequenceLength(a, b) {
     return dp[a.length][b.length];
 }
 
+// Adjust main content height
 function adjustMainContentHeight() {
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.main-content-wrapper');
@@ -241,13 +302,5 @@ function adjustMainContentHeight() {
     mainContent.style.minHeight = `${Math.max(sidebarHeight, windowHeight - footerHeight)}px`;
 }
 
-// Event Listeners
-document.getElementById('create-assignment-btn').addEventListener('click', showCreateAssignmentForm);
-document.getElementById('submit-new-assignment').addEventListener('click', createAssignment);
-document.getElementById('cancel-new-assignment').addEventListener('click', hideCreateAssignmentForm);
-document.getElementById('confirm-delete').addEventListener('click', deleteAssignment);
-document.getElementById('cancel-delete').addEventListener('click', hideDeleteConfirmation);
-
-// Call the function on load and resize
 window.addEventListener('load', adjustMainContentHeight);
 window.addEventListener('resize', adjustMainContentHeight);
