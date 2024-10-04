@@ -1,6 +1,6 @@
 # CodeGuard
 
-CodeGuard is a web-based plagiarism detection tool designed to help developers ensure the originality of their code. It allows users to submit code and compares it against a large database to detect potential matches. The tool is built using HTML, CSS, JS, with a smooth user experience for inputting code and receiving results.
+CodeGuard is a client-sided plagiarism detection tool designed to help developers ensure the originality of their code. It allows users to submit code and compares it against a large database to detect potential matches. The tool is built using HTML, CSS, JS, with a smooth user experience for inputting code and receiving results.
 
 ## Features
 
