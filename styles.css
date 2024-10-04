@@ -251,3 +251,11 @@ body {
         padding: 20px;
     }
 }
+
+.page {
+    display: none; /* Hide all pages by default */
+  }
+  
+  .page.active {
+    display: block; /* Only show the active page */
+  }
