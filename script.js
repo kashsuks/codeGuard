@@ -35,7 +35,7 @@ document.querySelectorAll('.sidebar nav a').forEach(link => {
 const themeSelect = document.getElementById('theme-select');
 themeSelect.addEventListener('change', () => {
     const selectedTheme = themeSelect.value;
-    document.body.className = selectedTheme;
+    applyTheme(selectedTheme);
     localStorage.setItem('theme', selectedTheme);
 });
 // Theme selection
@@ -45,6 +45,42 @@ themeSelect.addEventListener('change', () => {
     applyTheme(selectedTheme);
     localStorage.setItem('theme', selectedTheme);
 });
+
+function applyTheme(theme) {
+    document.body.className = theme;
+    updateThemeColors(theme);
+}
+
+function updateThemeColors(theme) {
+    const root = document.documentElement;
+    switch (theme) {
+        case 'ocean-breeze':
+            root.style.setProperty('--background-color', '#dff9fb');
+            root.style.setProperty('--text-color', '#130f40');
+            root.style.setProperty('--sidebar-background', '#130f40');
+            root.style.setProperty('--active-link-background', '#535c68');
+            root.style.setProperty('--button-background', '#0984e3');
+            root.style.setProperty('--button-hover', '#74b9ff');
+            break;
+        case 'sunset-horizon':
+            root.style.setProperty('--background-color', '#ffeaa7');
+            root.style.setProperty('--text-color', '#2d3436');
+            root.style.setProperty('--sidebar-background', '#e17055');
+            root.style.setProperty('--active-link-background', '#d63031');
+            root.style.setProperty('--button-background', '#fd79a8');
+            root.style.setProperty('--button-hover', '#ff7675');
+            break;
+        // ... (add cases for other themes) ...
+        default:
+            // Default theme colors
+            root.style.setProperty('--background-color', '#f8f9fa');
+            root.style.setProperty('--text-color', '#333');
+            root.style.setProperty('--sidebar-background', '#2c3e50');
+            root.style.setProperty('--active-link-background', '#34495e');
+            root.style.setProperty('--button-background', '#007bff');
+            root.style.setProperty('--button-hover', '#0056b3');
+    }
+}
 
 function applyTheme(theme) {
     document.body.className = theme;
@@ -107,7 +143,7 @@ clearMemoryBtn.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-        document.body.className = savedTheme;
+        applyTheme(savedTheme);
         themeSelect.value = savedTheme;
     }
 
