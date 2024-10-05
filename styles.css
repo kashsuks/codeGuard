@@ -326,19 +326,21 @@ body {
 
 /* Improved styling for the input fields */
 #name, #code {
-    width: 100%;
+    width: calc(100% - 40px);
     padding: 15px;
     border: 1px solid #ced4da;
-    border-radius: 12px; /* Add rounded corners */
+    border-radius: 12px;
     font-size: 16px;
     transition: border-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    background-color: #fff; /* Ensure white background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 0 auto;
+    display: block;
 }
 
 #name:focus, #code:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Slight glow on focus */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
     outline: none;
 }
 
