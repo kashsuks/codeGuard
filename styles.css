@@ -258,9 +258,6 @@ body {
   
   .page.active {
     display: block; /* Only show the active page */
-<<<<<<< HEAD
-  }
-=======
 }
 
 /* Loader styling */
@@ -316,4 +313,3 @@ body {
 .container {
     padding: 30px 20px; /* Adjust padding */
 }
->>>>>>> 1078ae1 (fixed form field spacing)
