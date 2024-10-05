@@ -282,5 +282,5 @@ function calculateLCSPercentage(code1, code2) {
     const lcsLength = dp[len1][len2];
     const maxLength = Math.max(len1, len2);
 
-    return (lcsLength / maxLength) * 100;
+    return ((lcsLength / maxLength) * 100).toFixed(2);
 }
