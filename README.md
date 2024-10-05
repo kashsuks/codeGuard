@@ -9,6 +9,9 @@ CodeGuard is a client-sided plagiarism detection tool designed to help developer
 - **Smooth UI/UX**: A clean, spacious design with smooth transitions and hover effects.
 - **Dynamic Interface**: Real-time updates for code analysis results, with no need to reload the page.
 
+## How to Use
+Just click on the link on the right side of the repository.
+
 ## Tech Stack
 
 - **Javascript**: Used to build the logic and to make the site interactive.
