@@ -258,4 +258,62 @@ body {
   
   .page.active {
     display: block; /* Only show the active page */
+<<<<<<< HEAD
   }
+=======
+}
+
+/* Loader styling */
+.loader {
+    display: none;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error message styling */
+.error-message {
+    color: var(--danger-color);
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Improved styling for the input fields */
+#name, #code {
+    width: calc(100% - 40px);
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 0 auto;
+    display: block;
+}
+
+#name:focus, #code:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+#code {
+    resize: vertical; /* Allow resizing vertically */
+    height: auto;
+    min-height: 150px; /* Minimum height for the code field */
+}
+
+.container {
+    padding: 30px 20px; /* Adjust padding */
+}
+>>>>>>> 1078ae1 (fixed form field spacing)
