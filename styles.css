@@ -147,17 +147,20 @@ body {
 }
 
 .form-control {
-    width: 100%;
+    width: calc(100% - 40px); /* Leave equal space on both sides */
     padding: 10px;
     border: 1px solid #ced4da;
-    border-radius: 8px;
+    border-radius: 10px; /* Updated for rounded corners */
     font-size: 16px;
     transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added shadow */
+    margin: 0 auto; /* Center the field */
+    display: block; /* Ensure it behaves like a block element */
 }
 
 .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
     outline: none;
 }
 
@@ -319,4 +322,32 @@ body {
     color: var(--danger-color);
     margin-bottom: 15px;
     font-weight: bold;
+}
+
+/* Improved styling for the input fields */
+#name, #code {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 12px; /* Add rounded corners */
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #fff; /* Ensure white background */
+}
+
+#name:focus, #code:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Slight glow on focus */
+    outline: none;
+}
+
+#code {
+    resize: vertical; /* Allow resizing vertically */
+    height: auto;
+    min-height: 150px; /* Minimum height for the code field */
+}
+
+.container {
+    padding: 30px 20px; /* Adjust padding */
 }
